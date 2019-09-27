@@ -39,7 +39,7 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
         return super(EntryCreateView, self).form_valid(form)
 
 
-class EntryUpdateView(LoginRequiredMixin, UpdateView):
+class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'entries/entry_create.html'
     form_class = EntryModelForm
 
@@ -50,13 +50,25 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('entries:entry-list')
 
+    def test_func(self):
+        entry = self.get_object()
+        if self.request.user == entry.author:
+            return True
+        return False
 
-class EntryDetailView(LoginRequiredMixin, DetailView):
+
+class EntryDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = 'entries/entry_detail.html'
 
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Entry, id=id_)
+
+    def test_func(self):
+        entry = self.get_object()
+        if self.request.user == entry.author:
+            return True
+        return False
 
 
 class EntryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
