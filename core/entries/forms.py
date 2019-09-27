@@ -14,6 +14,10 @@ class EntryModelForm(forms.ModelForm):
 
     class Meta:
         model = Entry
+        help_texts = {
+            'distance': 'Please, enter the distance in kilometers',
+            'duration': 'Please, enter the duration in hours',
+        }
         fields = ['date', 'distance', 'duration']
 
 

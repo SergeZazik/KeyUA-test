@@ -40,7 +40,7 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
 
 
 class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'entries/entry_create.html'
+    template_name = 'entries/entry_update.html'
     form_class = EntryModelForm
 
     def get_object(self):

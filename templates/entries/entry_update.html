@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}New Entry{% endblock %}
+
+{% block content %}
+    <h2>Add a New Entry</h2>
+    <div class="row">
+    <div class="col-6">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Update</button>
+        </div>
+    </form>
+    </div>
+    </div>
+{% endblock %}
