@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.date }}{% endblock %}
+
+{% block content %}
+    <br />
+    <div class="mb-4">
+        <a href="{% url 'entries:entry-list' %}" class="btn btn-primary">Entries</a>
+    </div>
+    <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Distance</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Average Speed</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ object.date }}</td>
+                    <td>{{ object.distance }} km</td>
+                    <td>{{ object.duration }} hr</td>
+                    <td>{{ object.get_average_speed|floatformat }} km/hr</td>
+                </tr>
+            </tbody>
+        </table>
+    <div class="mb-4">
+        <a href="{% url 'entries:entry-update' object.id %}" class="btn btn-success">Update entry</a>
+        <a href="{% url 'entries:entry-delete' object.id %}" class="btn btn-danger">Delete entry</a>
+    </div>
+{% endblock %}

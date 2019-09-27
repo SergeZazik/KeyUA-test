@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistics Page{% endblock %}
+
+{% block content %}
+    <h2 class="page-header">Statistics</h2>
+    <div class="mb-4">
+        <a href="{% url 'entries:entry-list' %}" class="btn btn-primary">Entries</a>
+    </div>
+    {% if entry_statistic %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Week</th>
+                <th scope="col">Total amount of entries</th>
+                <th scope="col">Total distance</th>
+                <th scope="col">Total duration</th>
+                <th scope="col">Weekly average speed</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in entry_statistic %}
+                <tr>
+                    <td>{{ entry.week }}</td>
+                    <td>{{ entry.entries_count }}</td>
+                    <td>{{ entry.total_distance }} km</td>
+                    <td>{{ entry.total_duration }} hr</td>
+                    <td>{{ entry.weekly_average_speed|floatformat }} km/hr</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no entries for the statistics.</p>
+    {% endif %}
+    {% if is_paginated %}
+        <nav aria-label="Page navigation conatiner"></nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

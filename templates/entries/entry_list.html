@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Reports{% endblock %}
+
+{% block content %}
+    <h2 class="page-header">Recents Entries</h2>
+    <div class="mb-4">
+        <a href="{% url 'entries:entry-create' %}" class="btn btn-primary">New entry</a>
+        <a href="{% url 'entries:entry-statistic' %}" class="btn btn-primary">Statistics</a>
+    </div>
+    {% if entry_list %}
+        <form action="" method="get">
+            <div class="row">
+            <div class="form-group">
+                {% for field in form  %}
+                    <b>{{ field.label_tag }}</b> {{ field }}
+                {% endfor %}
+            <br />
+            <button type="submit" class="btn btn-success">Filter</button>
+            </div>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Distance</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Average Speed</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in entry_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{% url 'entries:entry-detail' entry.pk %}">{{ entry.date }}</a></td>
+                    <td>{{ entry.distance }} km</td>
+                    <td>{{ entry.duration }} hr</td>
+                    <td>{{ entry.get_average_speed|floatformat }} km/hr</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no entries in the library.</p>
+    {% endif %}
+    {% if is_paginated %}
+        <nav aria-label="Page navigation conatiner"></nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}
